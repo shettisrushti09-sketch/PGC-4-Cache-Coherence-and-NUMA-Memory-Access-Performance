@@ -1,0 +1,29 @@
+
+# Compiled C executables
+src/false_sharing
+src/numa_sweep
+src/compare_numa
+
+# Python cache files
+__pycache__/
+*.py[cod]
+
+# Virtual environments
+venv/
+.venv/
+
+# Temporary files
+*.tmp
+*.log
+
+# IDE and OS files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# VMware virtual machine files
+*.vmdk
+*.vmx
+*.vmsd
+*.nvram
