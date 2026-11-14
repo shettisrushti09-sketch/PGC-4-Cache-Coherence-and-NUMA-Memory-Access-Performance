@@ -207,37 +207,18 @@ Execute:
 ## 7. Experiment Screenshots
 
 The following screenshots illustrate the program outputs and experiment visualizations.
+![Cache Coherence Simulation](./Experiment_4_Cache_Coherence_NUMA/images/01_coherence_simulation.png)
 
-### 7.1 Cache Coherence Simulation
+![False Sharing](./Experiment_4_Cache_Coherence_NUMA/images/02_false_sharing.png)
 
-Simulation output for MSI, MESI and MOESI protocols.
+![NUMA Memory Sweep](./Experiment_4_Cache_Coherence_NUMA/images/03_numa_sweep.png)
 
-![Cache Coherence Simulation](./images/01_coherence_simulation.png)
+![Combined NUMA Comparison](./Experiment_4_Cache_Coherence_NUMA/images/04_compare_numa.png)
 
-### 7.2 False Sharing Analysis
+![Remote NUMA Simulation](./Experiment_4_Cache_Coherence_NUMA/images/05_remote_numa_simulation.png)
 
-Comparison of adjacent and padded counter execution.
-
-![False Sharing](./images/02_false_sharing.png)
-
-### 7.3 NUMA Memory Sweep
-
-NUMA memory access performance analysis.
-
-![NUMA Memory Sweep](./images/03_numa_sweep.png)
-
-### 7.4 Combined NUMA Comparison
-
-Combined comparison of memory access and false-sharing behavior.
-
-![Combined NUMA Comparison](./images/04_compare_numa.png)
-
-### 7.5 Remote NUMA Simulation
-
-Illustration of remote NUMA memory access behavior.
-
-![Remote NUMA Simulation](./images/05_remote_numa_simulation.png)
-
+![Bus Transactions Comparison](./Experiment_4_Cache_Coherence_NUMA/images/bus_transactions.png)
+.
 ## 8. Comparison and Observations
 
 ### 8.1 Cache Coherence Comparison
