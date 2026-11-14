@@ -80,7 +80,7 @@ lscpu
 
 ## Execution Instructions
 
-Navigate to the source directory:
+Open the Ubuntu terminal and navigate to the experiment's source directory:
 
 ```bash
 cd Experiment_4_Cache_Coherence_NUMA/src
@@ -122,13 +122,13 @@ Compile:
 gcc -O2 numa_sweep.c -fopenmp -o numa_sweep
 ```
 
-Run the program:
+Run:
 
 ```bash
 ./numa_sweep
 ```
 
-NUMA local and remote memory placement can be tested using `numactl`, depending on the available NUMA nodes.
+Local and remote memory placement can be tested using `numactl`, depending on the available NUMA nodes.
 
 ### 4. Combined Comparison
 
@@ -181,7 +181,7 @@ The following chart compares bus transactions for adjacent and padded layouts ac
 | MOESI | Allows an owner cache to supply a dirty line directly to another cache |
 | Adjacent counters | Can cause false sharing and additional coherence traffic |
 | Padded counters | Reduce false sharing by separating counters across cache lines |
-| Local NUMA memory | Provides the reference for memory access time |
+| Local NUMA memory | Provides a reference for memory access time |
 | Remote NUMA memory | Can have higher access time, particularly on multi-socket systems |
 
 ## Conclusion
@@ -198,6 +198,6 @@ For detailed theory, methodology, program explanations, observations and conclus
 
 [View Experiment Report](experiment_report.md)
 
-## Note
+## Note on Results
 
 Execution timings depend on the processor, number of cores, operating system and virtual-machine configuration. Hardware timing results should be interpreted according to the system on which the experiment was executed. Reference outputs and screenshots should be clearly identified as reference material rather than personal measurements.
