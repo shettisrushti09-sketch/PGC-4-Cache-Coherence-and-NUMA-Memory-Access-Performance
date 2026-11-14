@@ -2,23 +2,28 @@
 
 ## Overview
 
-This experiment studies how cache coherence protocols maintain consistency between multiple processor caches and how false sharing and NUMA memory placement affect performance.
+This experiment analyzes cache coherence protocols and studies how false sharing and NUMA memory placement affect memory access performance in multi-core systems.
 
-The experiment covers three cache coherence protocols:
-
-- **MSI** – Modified, Shared, Invalid
-- **MESI** – Modified, Exclusive, Shared, Invalid
-- **MOESI** – Modified, Owned, Exclusive, Shared, Invalid
-
-It also examines adjacent and padded memory layouts to understand false sharing, along with local and remote memory access in NUMA systems.
+It focuses on three cache coherence protocols — MSI, MESI and MOESI — and compares adjacent and padded memory layouts to understand false sharing. It also examines local and remote memory access in NUMA systems.
 
 ## Objectives
 
-- Understand the MSI, MESI and MOESI cache coherence protocols.
-- Compare coherence traffic using a two-core simulation.
-- Study false sharing using adjacent and padded counters.
-- Examine NUMA local and remote memory access.
+- Study MSI, MESI and MOESI cache coherence protocols.
+- Understand how cache coherence maintains consistency between processor caches.
+- Compare coherence traffic using simulation.
+- Analyze false sharing using adjacent and padded counters.
+- Examine local and remote NUMA memory access.
 - Understand correctness, execution time and scalability.
+
+## Technologies and Tools
+
+- VMware Workstation
+- Ubuntu 22.04 LTS
+- GCC Compiler
+- OpenMP
+- Python 3
+- numactl
+- hwloc
 
 ## Repository Structure
 
@@ -42,42 +47,43 @@ Experiment_4_Cache_Coherence_NUMA/
 │   ├── numa_sweep.c
 │   └── compare_numa.c
 │
+├── .gitignore
 ├── experiment_report.md
-└── .gitignore
+└── README.md
 ```
 
-## Software Requirements
+## Software Installation
 
-- VMware Workstation
-- Ubuntu 22.04 LTS
-- GCC compiler
-- OpenMP
-- Python 3
-- numactl
-- hwloc
-
-Install the required packages on Ubuntu:
+Install the required packages in Ubuntu:
 
 ```bash
 sudo apt update
 sudo apt install build-essential numactl hwloc python3 -y
 ```
 
+Verify the compiler and NUMA configuration:
+
+```bash
+gcc --version
+numactl --hardware
+lscpu
+```
+
 ## Programs
 
 | Program | Description |
 |---|---|
-| `coherence_sim.py` | Simulates MSI, MESI and MOESI protocols |
+| `coherence_sim.py` | Simulates MSI, MESI and MOESI cache coherence protocols |
 | `false_sharing.c` | Compares adjacent and padded counters |
-| `numa_sweep.c` | Examines NUMA memory access performance |
+| `numa_sweep.c` | Studies NUMA memory access performance |
 | `compare_numa.c` | Combines false-sharing and memory-sweep comparisons |
 
-## Execution
+## Execution Instructions
 
 Navigate to the source directory:
 
 ```bash
-cd src
+cd Experiment_4_Cache_Coherence_NUMA/src
 ```
 
 ### 1. Cache Coherence Simulation
@@ -86,47 +92,112 @@ cd src
 python3 coherence_sim.py 1000
 ```
 
+This program simulates the MSI, MESI and MOESI protocols and compares their coherence traffic.
+
 ### 2. False Sharing
+
+Compile:
 
 ```bash
 gcc -O2 false_sharing.c -fopenmp -o false_sharing
+```
+
+Run adjacent counters:
+
+```bash
 ./false_sharing
 ```
 
+Run padded counters:
+
+```bash
+./false_sharing padded
+```
+
 ### 3. NUMA Memory Sweep
+
+Compile:
 
 ```bash
 gcc -O2 numa_sweep.c -fopenmp -o numa_sweep
 ```
 
-Run the compiled program according to the NUMA configuration of the system.
+Run the program:
+
+```bash
+./numa_sweep
+```
+
+NUMA local and remote memory placement can be tested using `numactl`, depending on the available NUMA nodes.
 
 ### 4. Combined Comparison
 
+Compile:
+
 ```bash
 gcc -O2 compare_numa.c -fopenmp -o compare_numa
+```
+
+Run:
+
+```bash
 ./compare_numa
 ```
 
-## Expected Observations
+## Experiment Screenshots
 
-- MSI requires an upgrade transaction even for a private line's first write.
-- MESI can move from Exclusive to Modified without a bus transaction.
-- MOESI allows an owner cache to supply a dirty line to another cache.
-- False sharing can reduce performance when threads update different variables on the same cache line.
-- Padding can reduce false sharing.
-- Remote NUMA access is typically slower on multi-socket systems; results can vary on a single-socket machine or virtual machine.
+### 1. Cache Coherence Simulation
 
-## Screenshots and Report
+![Cache Coherence Simulation](images/01_coherence_simulation.png)
 
-The `images/` directory contains experiment-related screenshots and the bus-transactions chart.
+### 2. False Sharing
 
-The detailed experiment report is available in [`experiment_report.md`](experiment_report.md).
+![False Sharing](images/02_false_sharing.png)
 
-## Note on Results
+### 3. NUMA Memory Sweep
 
-Execution timings depend on the processor, number of cores, operating system and virtual-machine configuration. Hardware performance results should be interpreted in the context of the machine on which the programs were executed. Reference outputs, if included, should be identified as reference results rather than personal measurements.
+![NUMA Memory Sweep](images/03_numa_sweep.png)
+
+### 4. Combined NUMA Comparison
+
+![Combined NUMA Comparison](images/04_compare_numa.png)
+
+### 5. Remote NUMA Simulation
+
+![Remote NUMA Simulation](images/05_remote_numa_simulation.png)
+
+## Cache Coherence Comparison
+
+The following chart compares bus transactions for adjacent and padded layouts across MSI, MESI and MOESI.
+
+![Bus Transactions Comparison](images/bus_transactions.png)
+
+## Observations
+
+| Case | Observation |
+|---|---|
+| MSI | Requires an upgrade transaction before the first write to a private shared line |
+| MESI | Supports a silent Exclusive-to-Modified transition |
+| MOESI | Allows an owner cache to supply a dirty line directly to another cache |
+| Adjacent counters | Can cause false sharing and additional coherence traffic |
+| Padded counters | Reduce false sharing by separating counters across cache lines |
+| Local NUMA memory | Provides the reference for memory access time |
+| Remote NUMA memory | Can have higher access time, particularly on multi-socket systems |
 
 ## Conclusion
 
-The experiment illustrates how cache coherence protocols, false sharing and NUMA memory placement influence memory-system performance. It highlights the importance of reducing unnecessary coherence traffic and placing data efficiently in multi-core systems.
+This experiment demonstrates how cache coherence protocols maintain consistency between processor caches and how memory layout affects performance.
+
+MSI, MESI and MOESI differ in the amount of coherence traffic they generate. False sharing can reduce performance when multiple threads modify different variables on the same cache line, while padding helps reduce this effect.
+
+NUMA memory placement also influences memory access performance, with remote memory access typically having higher latency on multi-socket systems.
+
+## Experiment Report
+
+For detailed theory, methodology, program explanations, observations and conclusion, refer to:
+
+[View Experiment Report](experiment_report.md)
+
+## Note
+
+Execution timings depend on the processor, number of cores, operating system and virtual-machine configuration. Hardware timing results should be interpreted according to the system on which the experiment was executed. Reference outputs and screenshots should be clearly identified as reference material rather than personal measurements.
