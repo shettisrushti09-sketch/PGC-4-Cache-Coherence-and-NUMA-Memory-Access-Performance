@@ -2,11 +2,11 @@
 
 ## Executive Summary
 
-This experiment investigates cache coherence mechanisms in multi-core systems and evaluates how memory layout and NUMA memory placement influence performance.
+This experiment investigates cache coherence mechanisms in multi-core systems and analyzes how false sharing and NUMA memory placement influence memory access performance.
 
-The study covers three cache coherence protocols — MSI, MESI and MOESI — alongside false sharing analysis using adjacent and padded counters. It also examines local and remote NUMA memory access.
+The study covers three cache coherence protocols — MSI, MESI and MOESI — and compares adjacent and padded memory layouts to understand false sharing. It also examines local and remote NUMA memory access.
 
-The experiment combines protocol simulation, C programs and performance visualizations to understand memory consistency, coherence traffic and memory access behavior.
+The experiment combines protocol simulation, C implementations and performance visualizations to understand memory consistency, coherence traffic and memory access behavior.
 
 ## Table of Contents
 
@@ -83,13 +83,13 @@ Cache coherence protocols ensure that multiple processor caches maintain a consi
 | MESI | Adds the Exclusive state to MSI |
 | MOESI | Adds the Owned state to MESI |
 
-**Key Concepts:**
+**Important Cache States:**
 
-- Modified: Cache line has been modified and differs from main memory.
-- Exclusive: Cache line is held exclusively and is clean.
-- Shared: Cache line may be present in multiple caches.
-- Invalid: Cache line contains invalid data.
-- Owned: Cache holds a modified shared line and is responsible for supplying it.
+- **Modified (M):** Cache line has been modified and differs from main memory.
+- **Exclusive (E):** Cache line is held exclusively and is clean.
+- **Shared (S):** Cache line may be present in multiple caches.
+- **Invalid (I):** Cache line contains invalid data.
+- **Owned (O):** Cache holds a modified shared line and is responsible for supplying it.
 
 ### 4.2 False Sharing
 
@@ -142,8 +142,15 @@ lscpu
 
 ### 6.2 Cache Coherence Simulation
 
+Navigate to the source directory:
+
 ```bash
 cd Experiment_4_Cache_Coherence_NUMA/src
+```
+
+Execute:
+
+```bash
 python3 coherence_sim.py 1000
 ```
 
@@ -201,43 +208,45 @@ Execute:
 
 ## 7. Experiment Screenshots
 
+The following screenshots illustrate the program outputs and experiment visualizations.
+
 ### 7.1 Cache Coherence Simulation
 
 Simulation output for MSI, MESI and MOESI protocols.
 
-![Cache Coherence Simulation](images/01_coherence_simulation.png)
+![Cache Coherence Simulation](./images/01_coherence_simulation.png)
 
 ### 7.2 False Sharing Analysis
 
 Comparison of adjacent and padded counter execution.
 
-![False Sharing](images/02_false_sharing.png)
+![False Sharing](./images/02_false_sharing.png)
 
 ### 7.3 NUMA Memory Sweep
 
 NUMA memory access performance analysis.
 
-![NUMA Memory Sweep](images/03_numa_sweep.png)
+![NUMA Memory Sweep](./images/03_numa_sweep.png)
 
 ### 7.4 Combined NUMA Comparison
 
 Combined comparison of memory access and false-sharing behavior.
 
-![Combined NUMA Comparison](images/04_compare_numa.png)
+![Combined NUMA Comparison](./images/04_compare_numa.png)
 
 ### 7.5 Remote NUMA Simulation
 
 Illustration of remote NUMA memory access behavior.
 
-![Remote NUMA Simulation](images/05_remote_numa_simulation.png)
+![Remote NUMA Simulation](./images/05_remote_numa_simulation.png)
 
 ## 8. Comparison and Observations
 
 ### 8.1 Cache Coherence Comparison
 
-The following visualization compares bus transactions across the cache coherence protocols and memory layouts.
+The following visualization compares bus transactions across cache coherence protocols and memory layouts.
 
-![Bus Transactions Comparison](images/bus_transactions.png)
+![Bus Transactions Comparison](./images/bus_transactions.png)
 
 ### 8.2 Key Observations
 
@@ -259,4 +268,12 @@ MSI, MESI and MOESI use different cache states and transitions to maintain memor
 
 The NUMA analysis highlights how memory placement influences access performance. Overall, the experiment provides practical insight into cache coherence, memory hierarchy and parallel performance optimization.
 
-## 10
+## 10. Experiment Report
+
+For detailed theory, methodology, program explanations, observations and conclusion, refer to the complete experiment report:
+
+[View Experiment Report](./experiment_report.md)
+
+---
+
+**Note:** Execution times and hardware performance depend on the processor, available cores, operating system and virtual-machine configuration. Actual measurements should be recorded from the system used to execute the experiment. Reference outputs should be clearly identified as reference material.
