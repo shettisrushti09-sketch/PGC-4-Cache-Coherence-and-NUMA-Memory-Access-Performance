@@ -207,15 +207,28 @@ Execute:
 ## 7. Experiment Screenshots
 
 The following screenshots illustrate the program outputs and experiment visualizations.
+##7.1 Cache Coherence Simulation
 ![Cache Coherence Simulation](./Experiment_4_Cache_Coherence_NUMA/images/01_coherence_simulation.png)
 
+##7.2 False Sharing
 ![False Sharing](./Experiment_4_Cache_Coherence_NUMA/images/02_false_sharing.png)
+
+
+##7.3 NUMA Memory Sweep
 
 ![NUMA Memory Sweep](./Experiment_4_Cache_Coherence_NUMA/images/03_numa_sweep.png)
 
+##7.4 Combined NUMA Comparison
+
+
 ![Combined NUMA Comparison](./Experiment_4_Cache_Coherence_NUMA/images/04_compare_numa.png)
 
+##7.5 Remote NUMA Simulation
+
 ![Remote NUMA Simulation](./Experiment_4_Cache_Coherence_NUMA/images/05_remote_numa_simulation.png)
+
+
+##7.6 Bus Transactions Comparison
 
 ![Bus Transactions Comparison](./Experiment_4_Cache_Coherence_NUMA/images/bus_transactions.png)
 .
